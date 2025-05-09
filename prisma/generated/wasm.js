@@ -18,11 +18,11 @@ exports.$Enums = {}
 
 /**
  * Prisma Client JS version: 5.21.1
- * Query Engine version: bf0e5e8a04cada8225617067eaa03d041e2bba36
+ * Query Engine version: 173f8d54f8d52e692c7e27e72a88314ec7aeff60
  */
 Prisma.prismaVersion = {
   client: "5.21.1",
-  engine: "bf0e5e8a04cada8225617067eaa03d041e2bba36"
+  engine: "173f8d54f8d52e692c7e27e72a88314ec7aeff60"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -122,14 +122,75 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.PatientScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  surname: 'surname',
+  patronymic: 'patronymic',
+  birthDate: 'birthDate',
+  birthPlace: 'birthPlace',
+  phoneNumber: 'phoneNumber',
+  gender: 'gender',
+  maritalStatus: 'maritalStatus',
+  sexStatus: 'sexStatus',
+  alcohol: 'alcohol',
+  smoke: 'smoke',
+  recommendationPerson: 'recommendationPerson',
+  rating: 'rating',
+  height: 'height',
+  weight: 'weight',
+  imt: 'imt',
+  cureForInfertility: 'cureForInfertility',
+  menopause: 'menopause',
+  menarche: 'menarche',
+  firstChildbirth: 'firstChildbirth',
+  lastChildbirth: 'lastChildbirth',
+  abortCount: 'abortCount',
+  lactationPeriod: 'lactationPeriod',
+  artificialInseminationCount: 'artificialInseminationCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VisitScalarFieldEnum = {
+  id: 'id',
+  patientId: 'patientId',
+  visitDate: 'visitDate',
+  placeName: 'placeName',
+  status: 'status',
+  visitType: 'visitType',
+  visitReason: 'visitReason',
+  visitDesc: 'visitDesc',
+  Prophylactic: 'Prophylactic',
+  USM: 'USM',
+  usmDescription: 'usmDescription',
+  blood: 'blood',
+  bloodDescription: 'bloodDescription',
+  lungs: 'lungs',
+  lungsDescription: 'lungsDescription',
+  reason: 'reason',
+  reasonDescription: 'reasonDescription',
+  benignDescription: 'benignDescription',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  email: 'email',
-  password: 'password',
   username: 'username',
   displayName: 'displayName',
+  telegramId: 'telegramId',
+  email: 'email',
+  password: 'password',
   avatar: 'avatar',
   bio: 'bio',
+  isVerified: 'isVerified',
+  isEmailVerified: 'isEmailVerified',
+  isTotpEnabled: 'isTotpEnabled',
+  totpSecret: 'totpSecret',
+  isDeactivated: 'isDeactivated',
+  deactivatedAt: 'deactivatedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -139,6 +200,25 @@ exports.Prisma.TokenScalarFieldEnum = {
   token: 'token',
   type: 'type',
   expiresIn: 'expiresIn',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  type: 'type',
+  isRead: 'isRead',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NotificationSettingsScalarFieldEnum = {
+  id: 'id',
+  siteNotifications: 'siteNotifications',
+  telegramNotifications: 'telegramNotifications',
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -159,12 +239,27 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 exports.TokenType = exports.$Enums.TokenType = {
-  PASSWORD_RESET: 'PASSWORD_RESET'
+  EMAIL_VERIFY: 'EMAIL_VERIFY',
+  PASSWORD_RESET: 'PASSWORD_RESET',
+  DEACTIVATE_ACCOUNT: 'DEACTIVATE_ACCOUNT',
+  TELEGRAM_AUTH: 'TELEGRAM_AUTH'
+};
+
+exports.NotificationType = exports.$Enums.NotificationType = {
+  STREAM_START: 'STREAM_START',
+  NEW_FOLLOWER: 'NEW_FOLLOWER',
+  NEW_SPONSORSHIP: 'NEW_SPONSORSHIP',
+  ENABLE_TWO_FACTOR: 'ENABLE_TWO_FACTOR',
+  VERIFIED_CHANNEL: 'VERIFIED_CHANNEL'
 };
 
 exports.Prisma.ModelName = {
+  Patient: 'Patient',
+  Visit: 'Visit',
   User: 'User',
-  Token: 'Token'
+  Token: 'Token',
+  Notification: 'Notification',
+  NotificationSettings: 'NotificationSettings'
 };
 
 /**

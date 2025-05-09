@@ -2,6 +2,36 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AuthModel {
+  message: String
+  user: UserModel
+}
+
+input ChangeEmailInput {
+  email: String!
+}
+
+input ChangeNotificationsSettingsInput {
+  siteNotifications: Boolean!
+  telegramNotifications: Boolean!
+}
+
+type ChangeNotificationsSettingsResponse {
+  notificationSettings: NotificationSettingsModel!
+  telegramAuthToken: String
+}
+
+input ChangePasswordInput {
+  newPassword: String!
+  oldPassword: String!
+}
+
+input ChangeProfileInfoInput {
+  bio: String!
+  displayName: String!
+  username: String!
+}
+
 input CreateUserInput {
   email: String!
   password: String!
@@ -13,29 +43,233 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input DeactivateAccountInput {
+  email: String!
+  password: String!
+  pin: String
+}
+
+input EnableTotpInput {
+  pin: String!
+  secret: String!
+}
+
 input LoginInput {
   login: String!
   password: String!
+  pin: String
 }
 
 type Mutation {
+  changeEmail(data: ChangeEmailInput!): Boolean!
+  changeNotificationsSettings(data: ChangeNotificationsSettingsInput!): ChangeNotificationsSettingsResponse!
+  changePassword(data: ChangePasswordInput!): Boolean!
+  changeProfileInfo(data: ChangeProfileInfoInput!): Boolean!
+  createPatient(data: PatientInput!): String!
   createUser(data: CreateUserInput!): Boolean!
-  login(data: LoginInput!): UserModel!
+  createVisit(data: VisitInput!, patientId: String!): String!
+  deactivateAccount(data: DeactivateAccountInput!): AuthModel!
+  deleteVisit(id: String!): Boolean!
+  disableTotp: Boolean!
+  enableTotp(data: EnableTotpInput!): Boolean!
+  login(data: LoginInput!): AuthModel!
   logout: Boolean!
+  newPassword(data: NewPasswordInput!): Boolean!
+  removePatient(id: String!): Boolean!
+  resetPassword(data: ResetPasswordInput!): Boolean!
+  updatePatient(data: PatientInput!, id: String!): Boolean!
+  updateVisit(data: VisitInput!, id: String!): Boolean!
+  verifyAccount(data: VerificationInput!): UserModel!
+}
+
+input NewPasswordInput {
+  password: String!
+  passwordRepeat: String!
+  token: String!
+}
+
+type NotificationModel {
+  createdAt: DateTime!
+  id: String!
+  isRead: Boolean!
+  message: String!
+  type: NotificationType!
+  updatedAt: DateTime!
+  user: UserModel!
+  userId: String!
+}
+
+type NotificationSettingsModel {
+  createdAt: DateTime!
+  id: String!
+  siteNotifications: Boolean!
+  telegramNotifications: Boolean!
+  updatedAt: DateTime!
+  user: UserModel!
+  userId: String!
+}
+
+enum NotificationType {
+  ENABLE_TWO_FACTOR
+  NEW_FOLLOWER
+  NEW_SPONSORSHIP
+  STREAM_START
+  VERIFIED_CHANNEL
+}
+
+input PatientFiltersInput {
+  searchTerm: String
+  skip: Float
+  take: Float
+}
+
+input PatientInput {
+  abortCount: String
+  alcohol: String
+  artificialInseminationCount: String
+  birthDate: DateTime
+  birthPlace: String
+  cureForInfertility: String
+  firstChildbirth: String
+  gender: String
+  height: String
+  imt: String
+  lactationPeriod: String
+  lastChildbirth: String
+  maritalStatus: String
+  menarche: String
+  menopause: String
+  name: String!
+  patronymic: String
+  phoneNumber: String
+  rating: String
+  recommendationPerson: String
+  sexStatus: String
+  smoke: String
+  surname: String!
+  weight: String
+}
+
+type PatientListResponse {
+  patients: [PatientModel!]!
+  totalCount: Int!
+}
+
+type PatientModel {
+  abortCount: Float
+  alcohol: Boolean!
+  artificialInseminationCount: Float
+  birthDate: DateTime
+  birthPlace: String
+  createdAt: DateTime!
+  cureForInfertility: String
+  firstChildbirth: Float
+  gender: String
+  height: Float
+  id: ID!
+  imt: Float
+  lactationPeriod: String
+  lastChildbirth: Float
+  maritalStatus: String
+  menarche: String
+  menopause: String
+  name: String!
+  patronymic: String
+  phoneNumber: String
+  rating: Float
+  recommendationPerson: String
+  sexStatus: String
+  smoke: Boolean!
+  surname: String!
+  updatedAt: DateTime!
+  userId: String!
+  visits: [VisitModel!]!
+  weight: Float
 }
 
 type Query {
+  findAllPatientVisits(patientId: String!): [VisitModel!]!
+  findAllPatients(filters: PatientFiltersInput!): PatientListResponse!
+  findNotificationsByUser: [NotificationModel!]!
+  findNotificationsUnreadCount: Float!
+  findPatientById(id: String!): PatientModel!
   findProfile: UserModel!
+  generateTotpSecret: TotpModel!
+}
+
+input ResetPasswordInput {
+  email: String!
+}
+
+type TotpModel {
+  qrcodeUrl: String!
+  secret: String!
 }
 
 type UserModel {
   avatar: String
   bio: String
   createdAt: DateTime!
+  deactivatedAt: DateTime
   displayName: String!
   email: String!
   id: ID!
+  isDeactivated: Boolean!
+  isEmailVerified: Boolean!
+  isTotpEnabled: Boolean!
+  isVerified: Boolean!
+  notificationSettings: NotificationSettingsModel!
+  notifications: [NotificationModel!]!
   password: String!
+  patients: [PatientModel!]!
+  telegramId: String
+  totpSecret: String
   updatedAt: DateTime!
   username: String!
+  visits: [VisitModel!]!
+}
+
+input VerificationInput {
+  token: String!
+}
+
+input VisitInput {
+  USM: Boolean
+  benignDescription: String
+  blood: Boolean
+  bloodDescription: String
+  lungs: Boolean
+  lungsDescription: String
+  placeName: String
+  reason: Boolean
+  reasonDescription: String
+  status: String
+  usmDescription: String
+  visitDate: DateTime
+  visitDesc: String
+  visitReason: String
+  visitType: String
+}
+
+type VisitModel {
+  Prophylactic: String
+  USM: Boolean
+  benignDescription: String
+  blood: Boolean
+  bloodDescription: String
+  createdAt: DateTime!
+  id: String!
+  lungs: Boolean
+  lungsDescription: String
+  patientId: String!
+  placeName: String!
+  reason: Boolean
+  reasonDescription: String
+  status: String!
+  updatedAt: DateTime!
+  usmDescription: String
+  visitDate: DateTime!
+  visitDesc: String
+  visitReason: String!
+  visitType: String!
 }

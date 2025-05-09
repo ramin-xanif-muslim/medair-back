@@ -4,12 +4,7 @@ import type { Request } from 'express'
 
 import type { User } from '@/prisma/generated'
 
-
-export function saveSession(
-	req: Request,
-	user: User,
-	// metadata: SessionMetadata
-) {
+export function saveSession(req: Request, user: User) {
 	return new Promise((resolve, reject) => {
 		req.session.createdAt = new Date()
 		req.session.userId = user.id
@@ -17,13 +12,11 @@ export function saveSession(
 		req.session.save(err => {
 			if (err) {
 				return reject(
-					new InternalServerErrorException(
-						'Failed to save session'
-					)
+					new InternalServerErrorException('Failed to save session')
 				)
 			}
 
-			resolve(user)
+			resolve({ user })
 		})
 	})
 }
@@ -33,9 +26,7 @@ export function destroySession(req: Request, configService: ConfigService) {
 		req.session.destroy(err => {
 			if (err) {
 				return reject(
-					new InternalServerErrorException(
-						'Failed to end session'
-					)
+					new InternalServerErrorException('Failed to end session')
 				)
 			}
 

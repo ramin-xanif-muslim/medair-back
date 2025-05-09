@@ -8,20 +8,113 @@ datasource db {
   url      = env("POSTGRES_URI")
 }
 
+model Patient {
+  id String @id @default(uuid())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+
+  name String 
+  surname String
+  patronymic String?
+
+  birthDate DateTime?  @map("birth_date")
+  birthPlace String? @map("birth_place")
+  phoneNumber String? @map("phone_number")
+  gender String? 
+  maritalStatus String? @map("marital_status")
+  sexStatus String? @map("sex_status")
+  alcohol Boolean @default(false)
+  smoke Boolean @default(false)
+  recommendationPerson String? @map("recommendation_person")
+  rating Int?
+  height Int?
+  weight Int?
+  imt Int?
+  // gender === Female
+    cureForInfertility String? @map("cureFor_infertility")
+    menopause String? 
+    menarche String? 
+    firstChildbirth Int? @map("first_childbirth")
+    lastChildbirth Int? @map("last_childbirth")
+    abortCount Int? @map("abort_count")
+    lactationPeriod String? @map("lactation_period")
+    artificialInseminationCount Int? @map("artificial_insemination_count")
+
+
+
+
+  visits Visit[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("patients")
+}
+
+model Visit {
+  id String @id @default(uuid())
+
+  patient   Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patientId String @map("patient_id")
+
+  visitDate DateTime? @map("visit_date")
+  placeName String? @map("place_name")
+  status String?
+  visitType String? @map("visit_type")
+  visitReason String? @map("visit_reason")
+  visitDesc String? @map("visit_desc")
+
+  // Если visitReason === "Prophylactic"
+  Prophylactic String?
+
+  // Если Prophylactic === "Malignant"
+  USM Boolean?
+  usmDescription String?
+  blood Boolean?
+  bloodDescription String?
+  lungs Boolean?
+  lungsDescription String?
+  reason Boolean?
+  reasonDescription String?
+
+  // Если Prophylactic !== "Malignant"
+  benignDescription String?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("visits")
+}
 
 model User {
   id String @id @default(uuid())
 
-  email String @unique
-  password String 
-
   username String @unique
   displayName String @map("display_name")
 
+  telegramId String? @unique @map("telegram_id")
+
+  patients Patient[]
+
+  email String @unique
+  password String 
+
   tokens Token[]
+  notifications Notification[]
+  notificationSettings NotificationSettings?
 
   avatar String?
   bio String? 
+
+  isVerified Boolean @default(false) @map("is_verified")
+
+  isEmailVerified Boolean @default(false) @map("is_email_verified")
+  isTotpEnabled   Boolean @default(false) @map("is_totp_enabled")
+  totpSecret      String? @map("totp_secret")
+
+  isDeactivated Boolean   @default(false) @map("is_deactivated")
+  deactivatedAt DateTime? @map("deactivated_at")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -46,10 +139,52 @@ model Token {
 }
 
 
+model Notification {
+  id String @id @default(uuid())
+
+  message String
+  type    NotificationType
+  isRead  Boolean          @default(false) @map("is_read")
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String? @map("user_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("notifications")
+}
+
+model NotificationSettings {
+  id String @id @default(uuid())
+
+  siteNotifications     Boolean @default(true) @map("site_notifications")
+  telegramNotifications Boolean @default(true) @map("telegram_notifications")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique @map("user_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("notification_settings")
+}
+
 enum TokenType {
+  EMAIL_VERIFY
   PASSWORD_RESET
   DEACTIVATE_ACCOUNT
   TELEGRAM_AUTH
 
   @@map("token_types")
+}
+
+enum NotificationType {
+  STREAM_START
+  NEW_FOLLOWER
+  NEW_SPONSORSHIP
+  ENABLE_TWO_FACTOR
+  VERIFIED_CHANNEL
+
+  @@map("notification_types")
 }
