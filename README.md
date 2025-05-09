@@ -1,29 +1,80 @@
-# Ramin Karimov – Frontend Developer
+# MedAir Backend
 
-👋 Hi, I'm Ramin Karimov, a frontend developer. I specialize in building modern, fast, and scalable web interfaces using **React**, **Vue**, **TypeScript**, and **Next.js**.
+Данный проект был разработан в учебных целях для освоения новых технологий и улучшения практических навыков.
 
-## 📍 About Me
-- 📌 Location: Baku, Azerbaijan  
-- 🧠 Tech Stack: React.js, Next.js, Vue.js, Tailwind CSS, Zustand, Redux, TanStack Query  
-- 🌐 Languages: Azerbaijani (Native), Russian (C1), Turkish (B1), English (A2), Arabic (A2)
+Проект построен на NestJS фреймворке с использованием GraphQL для API, Prisma в качестве ORM для работы с PostgreSQL базой данных.
+В проекте реализована интеграция с Telegram ботом для коммуникации с пользователями, система отправки email-уведомлений через React Email.
 
+## 🚀 Технологии
 
-## 🛠 Skills
+-   NestJS
+-   GraphQL (Apollo Server)
+-   Prisma ORM
+-   Telegram Bot API
+-   React Email
+-   i18n
 
-- **Languages:** HTML5, CSS/SCSS, JavaScript, TypeScript  
-- **Frameworks & Libraries:** React, Next.js, Vue.js, PWA  
-- **Styling & UI:** Tailwind CSS, Shadcn, Material UI, Ant Design  
-- **State Management:** Zustand, Redux, Jotai, Context API  
-- **API Handling:** REST, GraphQL, axios, TanStack Query  
-- **Tools:** Git, GitHub, GitLab, Vite, Webpack, Framer Motion, i18next, dayjs
+## 📋 Предварительные требования
 
+-   Node.js (рекомендуется последняя LTS версия)
+-   PostgreSQL
 
-## 📬 Contact
+## 🛠 Установка
 
-- Email: [ramin.karimov.work@gmail.com](mailto:ramin.karimov.work@gmail.com)  
-- LinkedIn: [linkedin.com/in/ramin-kerimov-3b8a75291](https://www.linkedin.com/in/ramin-kerimov-3b8a75291/)  
-- Portfolio: [ramin-s-portfolio.vercel.app](https://ramin-s-portfolio.vercel.app/)
+```bash
+# Установка зависимостей
+npm install
 
----
+# Настройка переменных окружения
+cp .env.example .env
 
-> This repository showcases my resume and development experience. Feel free to reach out for collaboration or job opportunities!
+# Применение миграций базы данных
+npm run db:push
+
+# Запуск сидов базы данных
+npm run db:seed
+```
+
+## 🏃‍♂️ Запуск
+
+```bash
+# Разработка
+npm run start:dev
+
+# Продакшн
+npm run build
+npm run start:prod
+```
+
+## 📝 Доступные скрипты
+
+-   `npm run build` - сборка проекта
+-   `npm run start:dev` - запуск в режиме разработки
+-   `npm run start:prod` - запуск в продакшн режиме
+-   `npm run db:push` - применение миграций Prisma
+-   `npm run db:studio` - запуск Prisma Studio
+-   `npm run test` - запуск тестов
+-   `npm run lint` - проверка кода линтером
+-   `npm run format` - форматирование кода
+
+## 🔐 Переменные окружения
+
+Создайте файл `.env` в корне проекта со следующими переменными:
+
+```env
+# База данных
+DATABASE_URL="postgresql://user:password@localhost:5432/dbname"
+
+# Telegram
+TELEGRAM_BOT_TOKEN=your_bot_token
+```
+
+## 📚 Документация
+
+-   [NestJS Documentation](https://docs.nestjs.com/)
+-   [Prisma Documentation](https://www.prisma.io/docs/)
+-   [Apollo Server Documentation](https://www.apollographql.com/docs/apollo-server/)
+
+## 📄 Лицензия
+
+UNLICENSED
